@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyh3bxr5jfwbm"]
+
+[ext_resource type="Script" path="res://UdpClient.gd" id="1_hcaye"]
+[ext_resource type="Script" path="res://fps-counter.gd" id="2_0wl8e"]
+[ext_resource type="PackedScene" uid="uid://etnqyc2l7i33" path="res://j_5.tscn" id="2_2du57"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_anmpo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7fhmf"]
+albedo_color = Color(0.0823529, 0.686275, 0.027451, 1)
+
+[node name="World" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.13511, 1.05197, 0.0365908)
+
+[node name="Server" type="Node3D" parent="." node_paths=PackedStringArray("objects_to_rotate")]
+script = ExtResource("1_hcaye")
+scale_down = 0.015
+objects_to_rotate = NodePath("../RigidBody3D")
+
+[node name="Timer" type="Timer" parent="Server"]
+process_mode = 3
+wait_time = 8.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.367394, 0.930065, 0, -0.930065, -0.367394, 0, 1.40108, 0)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_anmpo")
+
+[node name="j5" parent="RigidBody3D" instance=ExtResource("2_2du57")]
+transform = Transform3D(1.31134e-08, -1.14641e-15, -0.3, -2.62268e-08, -0.3, 0, -0.3, 2.62268e-08, -1.31134e-08, 0, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45215, -2.37102, 2.0946)
+material_override = SubResource("StandardMaterial3D_7fhmf")
+use_collision = true
+size = Vector3(23.8281, 1, 20.7996)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_right = 114.0
+offset_bottom = 40.0
+text = "Fps: 0"
+script = ExtResource("2_0wl8e")
